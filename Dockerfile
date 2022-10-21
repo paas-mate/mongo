@@ -1,4 +1,4 @@
-FROM ttbb/base
+FROM shoothzj/base
 
 ENV MONGO_HOME /opt/sh/mongo
 
