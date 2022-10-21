@@ -1,6 +1,24 @@
-FROM shoothzj/base
+FROM ubuntu:20.04
 
-ENV MONGO_HOME /opt/sh/mongo
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends sudo vim dumb-init && \
+    apt-get install -y --no-install-recommends iputils-ping && \
+    apt-get install -y wget curl && \
+    apt-get install -y --no-install-recommends tcpdump && \
+    apt-get install -y --no-install-recommends lsof && \
+    apt-get install -y --no-install-recommends iproute2 && \
+    apt-get -y --purge autoremove && \
+    apt-get autoclean && \
+    apt-get clean
+RUN echo "alias ll='ls -al'" >> /etc/bash.bashrc && \
+    echo "alias ..='cd ..'" >> /etc/bash.bashrc && \
+    echo "alias ...='cd ../..'" >> /etc/bash.bashrc && \
+    echo "alias tailf='tail -f'" >> /etc/bash.bashrc && \
+    echo "set nu" >> /etc/vim/vimrc
+
+ENV MONGO_HOME /opt/mongo
 
 ARG TARGETARCH
 
@@ -13,11 +31,11 @@ RUN if [[ "$TARGETARCH" = "amd64" ]]; \
     else download=$arm_download; \
     fi && \
     wget https://fastdl.mongodb.org/linux/$download.tgz && \
-    mkdir -p /opt/sh/mongo && \
-    tar -xf $download.tgz -C /opt/sh/mongo --strip-components 1 && \
+    mkdir -p /opt/mongo && \
+    tar -xf $download.tgz -C /opt/mongo --strip-components 1 && \
     rm -rf $download.tgz && \
-    ln -s /opt/sh/mongo/bin/mongo /usr/bin/mongo && \
-    ln -s /opt/sh/mongo/bin/mongod /usr/bin/mongod && \
-    ln -s /opt/sh/mongo/bin/mongos /usr/bin/mongos
+    ln -s /opt/mongo/bin/mongo /usr/bin/mongo && \
+    ln -s /opt/mongo/bin/mongod /usr/bin/mongod && \
+    ln -s /opt/mongo/bin/mongos /usr/bin/mongos
 
-WORKDIR /opt/sh/mongo
+WORKDIR /opt/mongo
