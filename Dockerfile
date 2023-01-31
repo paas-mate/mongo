@@ -22,9 +22,9 @@ ENV MONGO_HOME /opt/mongo
 
 ARG TARGETARCH
 
-ARG amd_download=mongodb-linux-x86_64-rhel80-6.0.2
+ARG amd_download=mongodb-linux-x86_64-ubuntu2004-6.0.4
 
-ARG arm_download=mongodb-linux-aarch64-rhel82-6.0.2
+ARG arm_download=mongodb-linux-aarch64-ubuntu2004-6.0.4
 
 RUN if [[ "$TARGETARCH" = "amd64" ]]; \
     then download=$amd_download; \
