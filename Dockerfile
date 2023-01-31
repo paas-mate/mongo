@@ -26,11 +26,11 @@ ARG amd_download=mongodb-linux-x86_64-ubuntu2004-6.0.4
 
 ARG arm_download=mongodb-linux-aarch64-ubuntu2004-6.0.4
 
-RUN if [[ "$TARGETARCH" = "amd64" ]]; \
+RUN if [ "$TARGETARCH" = "amd64" ]; \
     then download=$amd_download; \
     else download=$arm_download; \
     fi && \
-    wget https://fastdl.mongodb.org/linux/$download.tgz && \
+    wget -q https://fastdl.mongodb.org/linux/$download.tgz && \
     mkdir -p /opt/mongo && \
     tar -xf $download.tgz -C /opt/mongo --strip-components 1 && \
     rm -rf $download.tgz && \
